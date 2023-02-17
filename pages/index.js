@@ -11,13 +11,13 @@ function getTopStudent(data) {
   let topStudents = []
   let topPoint = 0
   data.forEach((student) => {
-    let currentProgress = student.progress.replace("%", "")
+    let currentProgress = Number(String(student.progress).replace("%", ""))
     if (currentProgress > topPoint) {
       topPoint = currentProgress
     }
   })
   data.forEach((student) => {
-    let currentProgress = student.progress.replace("%", "")
+    let currentProgress = Number(String(student.progress).replace("%", ""))
     if (currentProgress === topPoint) {
       topStudents.push(student)
     }
@@ -95,32 +95,22 @@ export default function Home() {
                           columnGap: "35px",
                         }}
                       >
-                        {topStudents.map((topStudent, idx) => {
-                          if (topStudent.name === student.name) {
-                            return (
-                              <div key={topStudent.name + idx}>
-                                <p className="card-content-diff-progress">
-                                  {student.progress}
-                                </p>
-                              </div>
-                            )
-                          } else {
-                            return getProgressNumber(student.progress) >=
-                              topStudentProgress / 2 ? (
-                              <div>
-                                <p className="card-content-diff-progress going">
-                                  {student.progress}
-                                </p>
-                              </div>
-                            ) : (
-                              <div>
-                                <p className="card-content-diff-progress lag">
-                                  {student.progress}
-                                </p>
-                              </div>
-                            )
-                          }
-                        })}
+                        <div>
+                          {topStudents.includes(student) ? (
+                            <p className="card-content-diff-progress">
+                              {student.progress}
+                            </p>
+                          ) : getProgressNumber(student.progress) >=
+                            topStudentProgress / 2 ? (
+                            <p className="card-content-diff-progress going">
+                              {student.progress}
+                            </p>
+                          ) : (
+                            <p className="card-content-diff-progress lag">
+                              {student.progress}
+                            </p>
+                          )}
+                        </div>
                       </div>
                     </div>
                   </div>
