@@ -52,98 +52,98 @@ export default function Home() {
     return <div>Oops, Error harap muat ulang halaman ...</div>
   }
 
-  if (isLoading) {
+  if (!isLoading && data && !isError) {
     return (
-      <div className="center-screen">
+      <div>
         <Head>
           <title>BOOTCAMP - LEADERBOARDS</title>
         </Head>
-        <div className="lds-ring centered">
-          <div></div>
-          <div></div>
-          <div></div>
-          <div></div>
-        </div>
+
+        <main>
+          <div className="container flex-center">
+            <h1>BOOTCAMP LEADERBOARDS</h1>
+
+            <div className="top-students flex-center">
+              <div>
+                <Image
+                  src="/images/gold.png"
+                  alt="gold"
+                  width="200"
+                  height="200"
+                />
+              </div>
+              {topStudents.map((student, idx) => {
+                return (
+                  <div key={idx}>
+                    <h3 className="top-student">{student.name}</h3>
+                  </div>
+                )
+              })}
+            </div>
+            <h2 className="cohort-progress">All Progress</h2>
+            <div className="container cohort-data">
+              {data.map((student) => {
+                return (
+                  <div className="card" key={student.name}>
+                    <div className="card-content">
+                      <p className="card-content-name">{student.name}</p>
+                      <div
+                        style={{
+                          display: "flex",
+                          justifyContent: "space-between",
+                          alignItems: "center",
+                          columnGap: "35px",
+                        }}
+                      >
+                        {topStudents.map((topStudent, idx) => {
+                          if (topStudent.name === student.name) {
+                            return (
+                              <div key={topStudent.name + idx}>
+                                <p className="card-content-diff-progress">
+                                  {student.progress}
+                                </p>
+                              </div>
+                            )
+                          } else {
+                            return getProgressNumber(student.progress) >=
+                              topStudentProgress / 2 ? (
+                              <div>
+                                <p className="card-content-diff-progress going">
+                                  {student.progress}
+                                </p>
+                              </div>
+                            ) : (
+                              <div>
+                                <p className="card-content-diff-progress lag">
+                                  {student.progress}
+                                </p>
+                              </div>
+                            )
+                          }
+                        })}
+                      </div>
+                    </div>
+                  </div>
+                )
+              })}
+            </div>
+          </div>
+        </main>
       </div>
     )
   }
 
   return (
-    <div>
+    <div className="center-screen">
       <Head>
         <title>BOOTCAMP - LEADERBOARDS</title>
       </Head>
-
-      <main>
-        <div className="container flex-center">
-          <h1>BOOTCAMP LEADERBOARDS</h1>
-
-          <div className="top-students flex-center">
-            <div>
-              <Image
-                src="/images/gold.png"
-                alt="gold"
-                width="200"
-                height="200"
-              />
-            </div>
-            {topStudents.map((student, idx) => {
-              return (
-                <div key={idx}>
-                  <h3 className="top-student">{student.name}</h3>
-                </div>
-              )
-            })}
-          </div>
-          <h2 className="cohort-progress">All Progress</h2>
-          <div className="container cohort-data">
-            {data.map((student) => {
-              return (
-                <div className="card" key={student.name}>
-                  <div className="card-content">
-                    <p className="card-content-name">{student.name}</p>
-                    <div
-                      style={{
-                        display: "flex",
-                        justifyContent: "space-between",
-                        alignItems: "center",
-                        columnGap: "35px",
-                      }}
-                    >
-                      {topStudents.map((topStudent, idx) => {
-                        if (topStudent.name === student.name) {
-                          return (
-                            <div key={topStudent.name + idx}>
-                              <p className="card-content-diff-progress">
-                                {student.progress}
-                              </p>
-                            </div>
-                          )
-                        } else {
-                          return getProgressNumber(student.progress) >=
-                            topStudentProgress / 2 ? (
-                            <div>
-                              <p className="card-content-diff-progress going">
-                                {student.progress}
-                              </p>
-                            </div>
-                          ) : (
-                            <div>
-                              <p className="card-content-diff-progress lag">
-                                {student.progress}
-                              </p>
-                            </div>
-                          )
-                        }
-                      })}
-                    </div>
-                  </div>
-                </div>
-              )
-            })}
-          </div>
-        </div>
-      </main>
+      <div className="lds-ring centered">
+        <div></div>
+        <div></div>
+        <div></div>
+        <div></div>
+      </div>
     </div>
   )
 }
